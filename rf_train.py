@@ -29,7 +29,6 @@ print(X.shape)
 print(y.shape)
 
 num_cols = X.select_dtypes(["int64", "float64"]).columns
-cat_cols = X.select_dtypes(["object"]).columns
 
 scaler = Pipeline(
     steps=[
@@ -38,17 +37,9 @@ scaler = Pipeline(
     ]
 )
 
-encoder = Pipeline(
-    steps=[
-        ("imputer", SimpleImputer(strategy="most_frequent")),
-        ("encoder", OneHotEncoder(handle_unknown="ignore"))
-    ]
-)
-
 preprocessor = ColumnTransformer(
     transformers=[
-        ("num", scaler, num_cols),
-        ("cat", encoder, cat_cols)
+        ("num", scaler, num_cols)
     ]
 )
 
